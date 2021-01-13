@@ -8,7 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EmpDAO {
 	
@@ -34,6 +36,95 @@ public class EmpDAO {
 			e.printStackTrace();
 		}
 	}//end of 생성자
+	
+	// 210113 스케줄 캘린더 만들기(데이터베이스 입력처리)
+	public void insertSchedule(Schedule sch) {
+		String sql = "insert into calendar values(?,?,?,?)";
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, sch.getTitle());
+			pstmt.setString(2, sch.getStartDate());
+			pstmt.setString(3, sch.getEndDate());
+			pstmt.setString(4, sch.getUrl());
+			int r = pstmt.executeUpdate();
+			System.out.println(r + "건 입력되어요.");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	// 210113 스케줄 캘린더 만들기
+	public List<Schedule> getScheduleList() {
+		
+		String sql = "select * from calendar";
+		List<Schedule> list = new ArrayList<>();
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				Schedule schedule = new Schedule();
+				schedule.setTitle(rs.getString("title"));
+				schedule.setStartDate(rs.getString("start_date"));
+				schedule.setEndDate(rs.getString("end_date"));
+				schedule.setUrl(rs.getString("url"));
+				list.add(schedule);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	} // end of getScheduleList
+	
+	
+	// 210113 차트 만들기
+	// Map 숙지!
+	public Map<String, Integer> getMemberByDept(){
+		String sql = "select department_name, count(*) " // /r/n을 삽입해 공백을 만들어 주거나 스페이스바로 공백 만들어 주어야 한다.
+				+ "from employees e, departments d "
+				+ "where e.department_id = d.department_id "
+				+ "group by department_name";
+		
+		Map<String, Integer> map = new HashMap<>();
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				// rs.getString(1) = 첫번째 칼럼
+				// rs.getInt(2) = 두번째 칼럼
+				map.put(rs.getString(1), rs.getInt(2));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return map;
+	} // end of getMemberByDept
 	
 	// 데이터 한 건 입력
 	public EmployeeVO insertEmp(EmployeeVO vo) {

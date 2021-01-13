@@ -1,0 +1,52 @@
+<!-- 210113 -->
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>api/datatable_javascript.html</title>
+
+<link href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+
+<script>
+
+$(document).ready(function() {
+	
+	$.ajax({
+		url:'../getEmpListApi',
+		dataType: 'json',
+		success: showEmpList,
+		error: function(){}
+	});
+	
+	
+   $('#example').DataTable( {
+        data: dataSet,
+        columns: [
+            { title: "employeeId" },
+            { title: "firstName" },
+            { title: "lastName" },
+            { title: "email" },
+            { title: "phoneNumber" },
+            { title: "hireDate" }
+        ]
+    } );
+    
+   
+    
+   
+    
+   
+    
+} ); // end end end
+</script>
+
+</head>
+<body>
+
+	<table id="example" class="display" width="100%"></table>
+
+</body>
+</html>

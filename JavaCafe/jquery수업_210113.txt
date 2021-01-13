@@ -1,0 +1,48 @@
+
+jquery_210113
+
+
+
+API활용
+
+- Google Chart
+
+- JavaCafe/WebContent/api 폴더에 진행
+
+- 달력 만들기
+https://datatables.net/examples/data_sources/js_array.html
+
+달력 실습용 테이블 생성 및 데이터 삽입
+select department_name, count(*)
+from employees e, departments d
+where e.department_id = d.department_id
+group by department_name;
+
+select * from calendar;
+
+create table calendar(
+title varchar2(100),
+start_date varchar2(20),
+end_date varchar2(20),
+url varchar2(100)
+);
+
+insert into calendar
+values('고양이 생일','2021-01-27','','http://www.nate.com');
+
+delete from calendar
+where url = 'http://www.google.com';
+
+commit;
+
+Check)
+- Java Map / HashMap
+- for in / forof
+- json 작성법
+
+
+
+JSON 데이터 확인
+http://json.parser.online.fr/
+- JSON 작성 후 결과 붙여넣기 하면 문법 확인 해준다.
+
