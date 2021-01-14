@@ -37,6 +37,43 @@ public class ProductDAO {
 		
 	} // end of 생성자
 	
+	// 210114
+	
+	public ProductVO getProduct(ProductVO vo) {
+		String sql = "select * from product where item_no = ?";
+		ProductVO v = null;
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getItemNo());
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				v = new ProductVO();
+				v.setAlt(rs.getString("alt"));
+				v.setCategory(rs.getString("category"));
+				v.setContent(rs.getString("content"));
+				v.setImage(rs.getString("image"));
+				v.setItem(rs.getString("item"));
+				v.setItemNo(rs.getString("item_no"));
+				v.setLikeIt(rs.getInt("like_it"));
+				v.setLink(rs.getString("link"));
+				v.setPrice(rs.getInt("price"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return v;
+	}
+	
 	public List<ProductVO> getProductList(){
 		
 		String sql = "select * from product order by 1";
@@ -74,6 +111,42 @@ public class ProductDAO {
 		
 		
 		return list;
+	}
+	
+	// 210114
+	// 파일 업로드용 
+	// product.html
+	public void insertProduct(ProductVO vo) {
+		String sql = "insert into product values(?,?,?,?,?,?,?,?,?)";
+		
+		int cnt = 0;
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getItemNo());
+			pstmt.setString(2, vo.getItem());
+			pstmt.setString(3, vo.getCategory());
+			pstmt.setInt(4, vo.getPrice());
+			pstmt.setString(5, vo.getLink());
+			pstmt.setString(6, vo.getContent());
+			pstmt.setInt(7, vo.getLikeIt());
+			pstmt.setString(8, vo.getAlt());
+			pstmt.setString(9, vo.getImage());
+			cnt = pstmt.executeUpdate();
+			System.out.println(cnt + "건 입력");
+					
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 } // end of class

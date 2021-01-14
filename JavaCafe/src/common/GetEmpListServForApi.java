@@ -1,5 +1,6 @@
-// for api/database_javascript.html
+
 // 210113
+// for api/database_javascript.html
 
 package common;
 

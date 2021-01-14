@@ -26,7 +26,12 @@ function showContents(result) {
 	let elem_1, elem_2, elem_3;
 
 	// 첫번째 자식 요소
-	elem_1 = $('<a />').attr('href', val.link);
+	
+	//수정발생('item.jsp?itemNo='+val.item_no)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 210114
+	//cafeList.html에서 이미지 클릭 시 item.jsp로 링크 전환 + itemNo별 숫자 변환(bean.001)
+	
+	elem_1 = $('<a />').attr('href', 'item.jsp?itemNo='+val.item_no); 
+	
 	let e1_img = $('<img />').attr('src', '../images/' + val.image).attr('alt', val.alt);
 	e1_img.addClass("card-img-top");
 	elem_1.append($(e1_img));
@@ -34,7 +39,7 @@ function showContents(result) {
 	// 두번째 자식 요소
 	elem_2 = $('<div />').addClass("card-body");
 	let e2_h4 = $('<h4 />').addClass("card-title");
-	e2_h4.append($('<a />').html(val.item).attr('href', val.link));
+	e2_h4.append($('<a />').html(val.item).attr('href', 'item.jsp?itemNo='+val.item_no));
 	let krw_price = new Intl.NumberFormat('ko-KR', {style: 'currency', currency: 'KRW'}).format(val.price);
 	let e2_h5 = $('<h5 />').html(krw_price);
 	let e2_p = $('<p />').html(val.content).addClass("card-text");
